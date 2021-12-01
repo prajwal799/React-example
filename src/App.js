@@ -9,16 +9,25 @@ export default function App() {
   }, []);
 
   const startTime = () => {
-    ref.current = setInterval(() => {
-      setCount((prev) => {
-        return prev + 1;
-      });
-    }, 1000);
+    if (!ref.current) {
+      ref.current = setInterval(() => {
+        setCount((prev) => {
+          return prev + 1;
+        });
+      }, 1000);
+    }
+  };
+
+  const handlePause = () => {
+    clearInterval(ref.current);
+    ref.current = null;
   };
   return (
     <div className="App">
       <h1>Hello CodeSandbox</h1>
       <h1>{count}</h1>
+      <button onClick={startTime}>Start</button>
+      <button onClick={handlePause}>Pause</button>
       <h2>Start editing to see some magic happen!</h2>
     </div>
   );
